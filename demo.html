@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Canvas demo</title>
+    <meta name="charset" value="utf8">
+    <script src="js/math.js"></script>
+    <script src="js/shape.js"></script>
+    <script src="js/draw.js"></script>
+  </head>
+  <body>
+    <canvas id="board" width="500" height="500"></canvas>
+    <script>
+      // Construct the canvas and context
+      var canvas = document.getElementById('board')
+      var context = canvas.getContext('2d')
+
+      // drawing a segment
+      var start = point(10, 10), 
+        end = point(60,340)
+      context.strokeStyle = '#222'
+      context.lineWidth = 5
+      draw(context, segment(start, end))
+
+      // drawing a polygon
+      var points = [
+        point(50, 50),
+        point(150, 50),
+        point(350, 150),
+        point(250, 10),
+        point(50, 50)
+      ]
+      context.strokeStyle = 'red'
+      draw(context, polygon(points))
+
+      // drawing a circle
+      var center = point(250, 250)
+      context.strokeStyle = 'blue'
+      context.lineWidth = 10
+      draw(context, circle(center, 77))
+
+      // draw an arc of circle
+      var a = point(250, 350),
+          b = point(350, 250),
+          c = point(250, 150)
+      context.strokeStyle = 'orange'
+      draw(context, arc(a, b, c))
+
+      // draw rectangle
+      var topLeft = point(10, 10),
+          bottomRight = point(290, 400)
+      context.strokeStyle = 'green'
+      draw(context, rectangle(topLeft, bottomRight))
+    </script>
+  </body>
+</html>  
