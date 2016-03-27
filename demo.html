@@ -11,12 +11,12 @@
       // Construct the canvas and context
       var canvas = document.getElementById('board')
       var context = canvas.getContext('2d')
+      context.strokeStyle = '#222'
+      context.lineWidth = 5
 
       // drawing a segment
       var start = point(10, 10), 
         end = point(60,340)
-      context.strokeStyle = '#222'
-      context.lineWidth = 5
       draw(context, segment(start, end))
 
       // drawing a polygon
@@ -37,13 +37,15 @@
       draw(context, circle(center, 77))
 
       // draw an arc of circle
-      var a = point(250, 350),
+      var a = point(150, 250),
           b = point(350, 250),
           c = point(250, 150)
       context.strokeStyle = 'orange'
-      draw(context, arc(a, b, c))
+      var theArc = arc(a, b, c)
+      console.log(theArc)
+      draw(context, theArc)
 
-      // draw rectangle
+      // // draw rectangle
       var topLeft = point(10, 10),
           bottomRight = point(290, 400)
       context.strokeStyle = 'green'
