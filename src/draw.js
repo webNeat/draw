@@ -17,7 +17,7 @@ var draw = function (ctx, shape) {
             drawCircle(ctx, shape.center, shape.radius)
         break
         case 'arc':
-            drawArc(ctx, shape.center, shape.radius, shape.startAngle, shape.endAngle)
+            drawArc(ctx, shape.center, shape.radius, shape.startAngle, shape.endAngle, shape.clockerwise)
         break
         case 'rectangle':
             drawRectangle(ctx, shape.topLeft, shape.bottomRight)
@@ -74,10 +74,8 @@ var drawCircle = function (ctx, center, radius) {
  * @param  {Number} endAngle   ending angle in radian
  * @return {void}
  */
-var drawArc = function (ctx, center, radius, startAngle, endAngle) {
-    startAngle = 2 * Math.PI - startAngle
-    endAngle = 2 * Math.PI - endAngle
-    ctx.arc(center.x, center.y, radius, startAngle, endAngle)
+var drawArc = function (ctx, center, radius, startAngle, endAngle, clockerwise) {
+    ctx.arc(center.x, center.y, radius, startAngle, endAngle, clockerwise)
 }
 
 /**

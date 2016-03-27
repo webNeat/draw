@@ -142,12 +142,13 @@ var perpendicular = function (ve) {
 /**
  * Functions to create different geometric shapes:
  * 
- * Segment: 	{type:segment', start:Point, end:Point}
- * Arc: 		{type:'arc', center:Point, radius:Number,
- * 					startingAngle:Number, endingAngle:Number}
- * Circle: 		{type:'circle', center:Point, radius:Number}
- * Rectangle: 	{type:'rectangle', topLeft:Point, bottomRight:Point}
- * Polygon: 	{type:'polygon', points:[Point]}
+ * Segment:     {type:segment', start:Point, end:Point}
+ * Arc:         {type:'arc', center:Point, radius:Number,
+ *                  startingAngle:Number, endingAngle:Number,
+ *                  clockerwise:Boolean}
+ * Circle:      {type:'circle', center:Point, radius:Number}
+ * Rectangle:   {type:'rectangle', topLeft:Point, bottomRight:Point}
+ * Polygon:     {type:'polygon', points:[Point]}
  */
 
 /**
@@ -157,11 +158,11 @@ var perpendicular = function (ve) {
  * @return {Segment}
  */
 var segment = function (a, b) {
-	return {
-		type: 'segment',
-		start: a,
-		end: b
-	}
+    return {
+        type: 'segment',
+        start: a,
+        end: b
+    }
 }
 
 /**
@@ -170,10 +171,10 @@ var segment = function (a, b) {
  * @return {Polygon}
  */
 var polygon = function (points) {
-	return {
-		type: 'polygon',
-		points: points
-	}
+    return {
+        type: 'polygon',
+        points: points
+    }
 }
 
 /**
@@ -183,11 +184,11 @@ var polygon = function (points) {
  * @return {Circle}
  */
 var circle = function (center, radius) {
-	return {
-		type: 'circle',
-		center: center,
-		radius: radius
-	}
+    return {
+        type: 'circle',
+        center: center,
+        radius: radius
+    }
 }
 
 /**
@@ -198,14 +199,15 @@ var circle = function (center, radius) {
  * @return {Arc}
  */
 var arc = function (a, b, c) {
-	var center = circleCenterFromThreePoints(a, b, c)
-	return {
-		type: 'arc', 
-		center: center,
-		radius: distanceBetween(a, center),
-		startAngle: angleOf(vector(center, a)), 
-		endAngle: angleOf(vector(center, c))
-	}
+    var center = circleCenterFromThreePoints(a, b, c)
+    return {
+        type: 'arc', 
+        center: center,
+        radius: distanceBetween(a, center),
+        startAngle: angleOf(vector(center, a)), 
+        endAngle: angleOf(vector(center, c)),
+        clockerwise: angleOf(vector(center, a)) > angleOf(vector(center, b))
+    }
 }
 
 /**
@@ -215,11 +217,11 @@ var arc = function (a, b, c) {
  * @return {Rectangle}
  */
 var rectangle = function (topLeft, bottomRight) {
-	return {
-		type: 'rectangle',
-		topLeft: topLeft,
-		bottomRight: bottomRight
-	}
+    return {
+        type: 'rectangle',
+        topLeft: topLeft,
+        bottomRight: bottomRight
+    }
 }
 
 /**
@@ -241,7 +243,7 @@ var draw = function (ctx, shape) {
             drawCircle(ctx, shape.center, shape.radius)
         break
         case 'arc':
-            drawArc(ctx, shape.center, shape.radius, shape.startAngle, shape.endAngle)
+            drawArc(ctx, shape.center, shape.radius, shape.startAngle, shape.endAngle, shape.clockerwise)
         break
         case 'rectangle':
             drawRectangle(ctx, shape.topLeft, shape.bottomRight)
@@ -298,10 +300,8 @@ var drawCircle = function (ctx, center, radius) {
  * @param  {Number} endAngle   ending angle in radian
  * @return {void}
  */
-var drawArc = function (ctx, center, radius, startAngle, endAngle) {
-    startAngle = 2 * Math.PI - startAngle
-    endAngle = 2 * Math.PI - endAngle
-    ctx.arc(center.x, center.y, radius, startAngle, endAngle)
+var drawArc = function (ctx, center, radius, startAngle, endAngle, clockerwise) {
+    ctx.arc(center.x, center.y, radius, startAngle, endAngle, clockerwise)
 }
 
 /**

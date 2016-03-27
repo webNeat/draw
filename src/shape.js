@@ -3,7 +3,8 @@
  * 
  * Segment: 	{type:segment', start:Point, end:Point}
  * Arc: 		{type:'arc', center:Point, radius:Number,
- * 					startingAngle:Number, endingAngle:Number}
+ * 					startingAngle:Number, endingAngle:Number,
+ * 					clockerwise:Boolean}
  * Circle: 		{type:'circle', center:Point, radius:Number}
  * Rectangle: 	{type:'rectangle', topLeft:Point, bottomRight:Point}
  * Polygon: 	{type:'polygon', points:[Point]}
@@ -63,7 +64,8 @@ var arc = function (a, b, c) {
 		center: center,
 		radius: distanceBetween(a, center),
 		startAngle: angleOf(vector(center, a)), 
-		endAngle: angleOf(vector(center, c))
+		endAngle: angleOf(vector(center, c)),
+		clockerwise: angleOf(vector(center, a)) > angleOf(vector(center, b))
 	}
 }
 
